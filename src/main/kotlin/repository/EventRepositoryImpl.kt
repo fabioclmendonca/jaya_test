@@ -5,7 +5,6 @@ import org.joda.time.DateTime
 import json.EventPostJson
 import json.EventResponseJson
 import model.Event
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 
 class EventRepositoryImpl : EventRepository {
@@ -23,8 +22,8 @@ class EventRepositoryImpl : EventRepository {
         }
     }
 
-    override fun getEvent(event_id : Int) = transaction {
-        when(val ev = Event.findById(event_id)){
+    override fun getEvent(eventNum : Int) = transaction {
+        when(val ev = Event.findById(eventNum)){
             null -> ev
             else -> EventResponseJson(ev.action, ev.created_at.toString())
         }
