@@ -6,8 +6,6 @@ plugins {
 group 'jaya_challenge'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
-
 repositories {
     jcenter()
     mavenCentral()
@@ -21,10 +19,6 @@ dependencies {
     compile group: 'org.koin', name: 'koin-core', version: '1.0.0'
     compile group: 'org.jetbrains.exposed', name: 'exposed', version: '0.10.5'
     compile group: 'com.h2database', name: 'h2', version: '1.4.197'
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = '1.8'
 }
 
 mainClassName = 'JayaChallenge'
