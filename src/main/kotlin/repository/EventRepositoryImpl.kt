@@ -5,14 +5,16 @@ import org.joda.time.DateTime
 import json.EventPostJson
 import json.EventResponseJson
 import model.Event
+import model.LastResponse
 
 
 class EventRepositoryImpl : EventRepository {
 
     override fun save(eventPostJson: EventPostJson) = transaction {
-        Event.new(eventPostJson.id) {
-            this.action = eventPostJson.action
-            this.created_at = DateTime.now()
+        Event.new(eventPostJson.hook_id) {
+            this.created_at = DateTime(eventPostJson.created_at)
+            this.updated_at = DateTime(eventPostJson.updated_at)
+            this.last_response_code = eventPostJson.last_response.code
         }.flush()
     }
 
