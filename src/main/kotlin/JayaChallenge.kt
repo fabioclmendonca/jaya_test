@@ -18,8 +18,7 @@ class JayaChallenge : KoinComponent {
         routes { eventEndPoint.addEndpoints() }
         Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
         transaction { create(Event.table) }
-        start()
-    }
+    }.start(4567)
 }
 
 fun main(args: Array<String>) {

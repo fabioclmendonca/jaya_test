@@ -32,8 +32,7 @@ object EventHandler : KoinComponent {
 
     fun getEvent(ctx: Context){
         val eventNum = ctx.pathParam("id").toInt()
-        val event = eventService.getEvent(eventNum)
-        when(event){
+        when(val event = eventService.getEvent(eventNum)){
             null -> ctx.json("Id doesn't exist")
             else -> ctx.json(event)
         }

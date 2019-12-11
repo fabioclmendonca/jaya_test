@@ -9,6 +9,7 @@ class EventEndPoint : EndpointGroup {
     override fun addEndpoints() {
         post("/payload", EventHandler::payload)
         path("/issues"){
+            get("/events", EventHandler::getEvents)
             get("/:id/events", EventHandler::getEvent)
         }
     }

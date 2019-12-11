@@ -7,7 +7,7 @@ import repository.EventRepositoryImpl
 import service.EventService
 import service.EventServiceImpl
 
-val eventModule = module("module.eventModule") {
+val eventModule = module("module.EventModule") {
     single { EventEndPoint() }
     single<EventService> { EventServiceImpl(get()) }
     single<EventRepository> { EventRepositoryImpl() }

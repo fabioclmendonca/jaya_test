@@ -24,11 +24,9 @@ class EventRepositoryImpl : EventRepository {
     }
 
     override fun getEvent(event_id : Int) = transaction {
-        val ev = Event.findById(event_id)
-        when(ev){
+        when(val ev = Event.findById(event_id)){
             null -> ev
             else -> EventResponseJson(ev.action, ev.created_at.toString())
         }
-
     }
 }
