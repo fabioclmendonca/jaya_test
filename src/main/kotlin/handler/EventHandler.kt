@@ -14,8 +14,6 @@ object EventHandler : KoinComponent {
     fun payload(ctx: Context) {
         try {
             val event = ctx.bodyAsClass(EventPostJson::class.java)
-//            ctx.json(ctx.body())
-//            println(ctx.body())
             when(eventService.save(event)) {
                 true -> ctx.json("Payload saved.")
                 else -> throw Exception()

@@ -1,7 +1,6 @@
 package service
 
 import json.EventPostJson
-import json.EventResponseJson
 import repository.EventRepository
 
 

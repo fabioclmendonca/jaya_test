@@ -5,29 +5,33 @@ import org.joda.time.DateTime
 import json.EventPostJson
 import json.EventResponseJson
 import model.Event
-import model.LastResponse
+import model.Issue
+import model.EventTable
 
 
 class EventRepositoryImpl : EventRepository {
 
     override fun save(eventPostJson: EventPostJson) = transaction {
-        Event.new(eventPostJson.hook_id) {
-            this.created_at = DateTime(eventPostJson.created_at)
-            this.updated_at = DateTime(eventPostJson.updated_at)
-            this.last_response_code = eventPostJson.last_response.code
+        val issue = Issue.findById(eventPostJson.issue.number)?.apply {
+            createdAt = DateTime(eventPostJson.issue.createdAt)
+        } ?: Issue.new(eventPostJson.issue.number) {
+            this.createdAt = DateTime(eventPostJson.issue.createdAt)
+        }
+        Event.new {
+            this.action = eventPostJson.action
+            this.issue = issue
         }.flush()
     }
 
     override fun getEvents() = transaction {
         Event.all().map {
-            EventResponseJson(it.action, it.created_at.toString())
+            EventResponseJson(it.issue.id.value, it.action, it.issue.createdAt.toString())
         }
     }
 
     override fun getEvent(eventNum : Int) = transaction {
-        when(val ev = Event.findById(eventNum)){
-            null -> ev
-            else -> EventResponseJson(ev.action, ev.created_at.toString())
-        }
+        Event.find { EventTable.issueId eq eventNum }.map {
+            EventResponseJson(it.issue.id.value, it.action, it.issue.createdAt.toString())
+        }.first()
     }
 }
