@@ -32,6 +32,6 @@ class EventRepositoryImpl : EventRepository {
     override fun getEvent(eventNum : Int) = transaction {
         Event.find { EventTable.issueId eq eventNum }.map {
             EventResponseJson(it.issue.id.value, it.action, it.issue.createdAt.toString())
-        }.first()
+        }.last()
     }
 }

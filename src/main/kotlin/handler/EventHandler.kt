@@ -6,6 +6,7 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import service.EventService
 import java.lang.Exception
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 
 object EventHandler : KoinComponent {
 
@@ -18,6 +19,8 @@ object EventHandler : KoinComponent {
                 true -> ctx.json("Payload saved.")
                 else -> throw Exception()
             }
+        } catch (me: MismatchedInputException){
+            ctx.json("Sent body message doesn't match with IssuesEvent body. ")
         } catch (e: Exception){
             ctx.json("Error to save Payload.")
             e.printStackTrace()
