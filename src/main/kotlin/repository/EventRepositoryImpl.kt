@@ -7,7 +7,7 @@ import json.EventResponseJson
 import model.Event
 import model.Issue
 import model.EventTable
-
+import java.lang.Exception
 
 class EventRepositoryImpl : EventRepository {
 
@@ -30,8 +30,12 @@ class EventRepositoryImpl : EventRepository {
     }
 
     override fun getEvent(eventNum : Int) = transaction {
-        Event.find { EventTable.issueId eq eventNum }.map {
-            EventResponseJson(it.issue.id.value, it.action, it.issue.createdAt.toString())
-        }.last()
+        try{
+            Event.find { EventTable.issueId eq eventNum }.map {
+                EventResponseJson(it.issue.id.value, it.action, it.issue.createdAt.toString())
+            }.last()
+        }catch (ex: Exception){
+            null
+        }
     }
 }
